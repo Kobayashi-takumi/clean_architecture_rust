@@ -1,0 +1,29 @@
+services:
+  app:
+    container_name: app
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.dev
+    tty: true
+    volumes:
+      - ./:/app:cache
+      - ./.cargo:/app/.cargo
+      - rust-target:/app/target
+      - cargo-cache:/usr/local/cargo/registry
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: Sa01
+      POSTGRES_USER: sa
+      POSTGRES_DB: app
+volumes:
+  cargo-cache:
+  rust-target:
+
