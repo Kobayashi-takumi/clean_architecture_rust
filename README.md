@@ -54,3 +54,7 @@ GraphQLのTODOアプリ
 - database -> データベースの実装
 - graphql -> GraphQLの実装(main.rsで実行されサーバが起動する)
 - memory -> インメモリの実装
+
+# 参考文献
+- Clean Architecture 達人に学ぶソフトウェアの構造と設計 - Robert C.Martin
+- 手を動かしてわかるクリーンアーキテクチャ ヘキサゴナルアーキテクチャによるクリーンなアプリケーション - Tom Hombergs
