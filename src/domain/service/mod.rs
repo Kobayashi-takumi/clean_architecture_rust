@@ -33,13 +33,13 @@ impl ServiceFactory {
         }
     }
 
-    pub fn tasks_service(&self) -> TasksService {
-        self.tasks_service.clone()
+    pub fn tasks_service(&self) -> Box<TasksService> {
+        Box::new(self.tasks_service.clone())
     }
-    pub fn create_task_service(&self) -> CreateTaskService {
-        self.create_task_service.clone()
+    pub fn create_task_service(&self) -> Box<CreateTaskService> {
+        Box::new(self.create_task_service.clone())
     }
-    pub fn update_task_service(&self) -> UpdateTaskService {
-        self.update_task_service.clone()
+    pub fn update_task_service(&self) -> Box<UpdateTaskService> {
+        Box::new(self.update_task_service.clone())
     }
 }

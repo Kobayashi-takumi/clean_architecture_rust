@@ -31,6 +31,7 @@ GraphQLのTODOアプリ
     │   └── memory
     ├── interface_adapter
     │   ├── adapter
+    │   ├── controller
     │   ├── gateway
     │   └── port
     ├── main.rs
@@ -46,6 +47,7 @@ GraphQLのTODOアプリ
 ### interface_adapter
 アダプター層。
 - 各データオブジェクトの変換 -> adapter  
+- プレゼンテーション層へのコントローラ -> controller  
 - インフラのインターフェース -> gateway  
 - ドメイン・ユースケース層のinput/outputポート -> port
 

@@ -2,6 +2,7 @@ use super::resolver::{mutation::Mutation, query::Query};
 use crate::domain::service::ServiceFactory;
 use crate::infrastructure::database::{pool, transaction::PgTransaction};
 use crate::infrastructure::{
+    csv::{query::CsvQueryFactory, repository::CsvRepositoryFactory},
     database::{query::DatabaseQueryFactory, repository::DatabaseRepositoryFactory},
     memory::{query::MemoryQueryFactory, repository::MemoryRepositoryFactory},
 };
@@ -91,8 +92,16 @@ async fn di_middleware(
     };
     // let repository_factory = MemoryRepositoryFactory::new();
     let repository_factory = DatabaseRepositoryFactory::new(tx.get());
+    // let repository_factory = match CsvRepositoryFactory::new() {
+    //     Ok(val) => val,
+    //     Err(err) => return err.into_response(),
+    // };
     // let query_factory = MemoryQueryFactory::new();
     let query_factory = DatabaseQueryFactory::new(&pool);
+    // let query_factory = match CsvQueryFactory::new() {
+    //     Ok(val) => val,
+    //     Err(err) => return err.into_response(),
+    // };
     let adapter_factory = PersistenceAdapterFactory::new(
         repository_factory.task_repository(),
         query_factory.task_query(),
