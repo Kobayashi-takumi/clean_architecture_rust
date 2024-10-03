@@ -10,6 +10,8 @@ pub struct Config {
     pub max_connections: u32,
     /// データベースのマイグレーションファイルのパス
     pub migrations_path: Option<String>,
+    /// 開発者モードか？
+    pub dev_mode: bool,
 }
 
 impl Config {
@@ -26,10 +28,14 @@ impl Config {
                 log::error!("{}", e);
                 Error::Configuration("DB_MAX_CONNECTIONS".to_string())
             })?;
+        let dev_mode = var("DEV_MODE")
+            .map(|mode| matches!(mode.as_str(), "true" | "True" | "TRUE"))
+            .unwrap_or(false);
         Ok(Self {
             database_url,
             max_connections,
             migrations_path,
+            dev_mode,
         })
     }
 }

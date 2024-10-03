@@ -42,8 +42,11 @@ async fn graphql_playground() -> impl IntoResponse {
 
 pub async fn start(config: &Config) -> Result<()> {
     let pool = pool(config).await?;
-    log::info!("{pool:?}");
-    let schema = Schema::build(Query, Mutation, EmptySubscription).finish();
+    let mut schema_builder = Schema::build(Query, Mutation, EmptySubscription);
+    if !config.dev_mode {
+        schema_builder = schema_builder.disable_introspection().disable_suggestions()
+    };
+    let schema = schema_builder.finish();
     let app = Router::new()
         .route("/", get(graphql_playground).post(graphql_handler))
         .route("/health-check", get(health_check))
@@ -70,7 +73,7 @@ pub async fn start(config: &Config) -> Result<()> {
 
 async fn graphql_handler(
     schema: Extension<ISchema>,
-    Extension(service_factory): Extension<ServiceFactory>, // ExtensionからConfigを取得
+    Extension(service_factory): Extension<ServiceFactory>,
     _headers: HeaderMap,
     req: GraphQLRequest,
 ) -> GraphQLResponse {
